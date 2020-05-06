@@ -33,16 +33,22 @@ class _HomeState extends State<Home> {
   _HomeState(this.currencies, this.conversor);
 
   void _resetFields() {
-    realController.text = '';
-    dollarController.text = '';
-    euroController.text = '';
-    poundController.text = '';
-    pesoController.text = '';
-    bitCoinController.text = '';
+    _calcValues('BRL', '1');
 
     setState(() {
       _formKey = GlobalKey<FormState>();
     });
+  }
+
+  void _calcValues(coin, value) {
+    Map values = this.conversor.getValues(coin, value);
+
+    dollarController.text = values['USD'];
+    euroController.text = values['EUR'];
+    poundController.text = values['GBP'];
+    pesoController.text = values['ARS'];
+    bitCoinController.text = values['BTC'];
+    realController.text = values['BRL'];
   }
 
   @override
@@ -61,31 +67,37 @@ class _HomeState extends State<Home> {
                 TextInputType.number, 
                 'BRL', 
                 realController,
+                (text) { _calcValues('BRL', text); }
               ),
               Input(
                 TextInputType.number, 
                 'USD', 
                 dollarController,
+                (text) { _calcValues('USD', text); }
               ),
               Input(
                 TextInputType.number, 
                 'EUR', 
                 euroController,
+                (text) { _calcValues('EUR', text); }
               ),
               Input(
                 TextInputType.number, 
                 'GBP', 
                 poundController,
+                (text) { _calcValues('GBP', text); }
               ),
               Input(
                 TextInputType.number, 
                 'ARS', 
                 pesoController,
+                (text) { _calcValues('ARS', text); }
               ),
               Input(
                 TextInputType.number, 
                 'BTC', 
                 bitCoinController,
+                (text) { _calcValues('BTC', text); }
               ),
             ],
           ),
